@@ -7,6 +7,8 @@ export type {
   IBoxPlot,
   IBoxplotOptions,
   IKDEPoint,
+  IRaincloud,
+  IRaincloudOptions,
   IViolin,
   IViolinOptions,
   QuantileMethod,

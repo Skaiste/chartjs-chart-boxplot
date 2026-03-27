@@ -4,10 +4,11 @@ title: Data Structures
 
 # Data Structures
 
-BoxPlot and Violin Plots can be defined in two ways: Either given a raw array of values or as an object of precomputed values.
+BoxPlot, Violin, and Raincloud plots can be defined in two ways: Either given a raw array of values or as an object of precomputed values.
 
 <script setup>
 import {config} from './datastructures';
+import {config as raincloud} from './datastructuresRaincloud';
 import {config as violin} from './datastructuresViolin';
 </script>
 
@@ -42,5 +43,22 @@ import {config as violin} from './datastructuresViolin';
 <<< ./datastructuresViolin.ts#config [config]
 
 <<< ./datastructuresViolin.ts#data [data]
+
+:::
+
+## Raincloud Plot
+
+<RaincloudChart
+  :options="raincloud.options"
+  :data="raincloud.data"
+/>
+
+### Code
+
+:::code-group
+
+<<< ./datastructuresRaincloud.ts#config [config]
+
+<<< ./datastructuresRaincloud.ts#data [data]
 
 :::

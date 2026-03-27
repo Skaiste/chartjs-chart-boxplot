@@ -1,6 +1,6 @@
 {
   "name": "@sgratzl/chartjs-chart-boxplot",
-  "description": "Chart.js module for charting boxplots and violin charts",
+  "description": "Chart.js module for charting boxplots, violin charts, and raincloud plots",
   "version": "4.4.5",
   "publishConfig": {
     "access": "public"
@@ -30,7 +30,8 @@
   "keywords": [
     "chart.js",
     "boxplot",
-    "violin"
+    "violin",
+    "raincloud"
   ],
   "repository": {
     "type": "git",

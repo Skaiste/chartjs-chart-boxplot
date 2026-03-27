@@ -2,7 +2,7 @@
 
 [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-Chart.js module for charting box and violin plots. This is a maintained fork of [@datavisyn/chartjs-chart-box-and-violin-plot](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot), which I originally developed during my time at datavisyn.
+Chart.js module for charting box, violin, and raincloud plots. This is a maintained fork of [@datavisyn/chartjs-chart-box-and-violin-plot](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot), which I originally developed during my time at datavisyn.
 
 ![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
 ![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
@@ -21,7 +21,7 @@ and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QxoLoY)
 
 ## Chart
 
-four new types: `boxplot` and `violin`.
+three chart types: `boxplot`, `violin`, and `raincloud`.
 
 ## Config
 

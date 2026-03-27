@@ -1,6 +1,8 @@
 import { InteractionItem, TooltipItem, Tooltip, TooltipModel } from 'chart.js';
 
-export interface ExtendedTooltip extends TooltipModel<'boxplot' | 'violin'> {
+type StatsChartType = 'boxplot' | 'violin' | 'raincloud';
+
+export interface ExtendedTooltip extends TooltipModel<StatsChartType> {
   _tooltipOutlier?: {
     index: number;
     datasetIndex: number;
@@ -15,8 +17,8 @@ export interface ExtendedTooltip extends TooltipModel<'boxplot' | 'violin'> {
  * @hidden
  */
 export function patchInHoveredOutlier(
-  this: TooltipModel<'boxplot' | 'violin'>,
-  item: TooltipItem<'boxplot' | 'violin'>
+  this: TooltipModel<StatsChartType>,
+  item: TooltipItem<StatsChartType>
 ): void {
   const value = item.formattedValue as any;
   const that = this as ExtendedTooltip;
@@ -33,7 +35,7 @@ export function patchInHoveredOutlier(
  * @hidden
  */
 export function outlierPositioner(
-  this: TooltipModel<'boxplot' | 'violin'>,
+  this: TooltipModel<StatsChartType>,
   items: readonly InteractionItem[],
   eventPosition: { x: number; y: number }
 ): false | { x: number; y: number } {

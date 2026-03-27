@@ -6,6 +6,7 @@ title: Examples
 
 <script setup>
 import {config} from './boxplot';
+import {config as raincloud} from './raincloud';
 import {config as violin} from './violin';
 </script>
 
@@ -40,5 +41,22 @@ import {config as violin} from './violin';
 <<< ./violin.ts#config [config]
 
 <<< ./violin.ts#data [data]
+
+:::
+
+## Raincloud Plot
+
+<RaincloudChart
+  :options="raincloud.options"
+  :data="raincloud.data"
+/>
+
+### Code
+
+:::code-group
+
+<<< ./raincloud.ts#config [config]
+
+<<< ./raincloud.ts#data [data]
 
 :::

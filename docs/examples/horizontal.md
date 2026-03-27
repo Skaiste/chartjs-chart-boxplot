@@ -6,6 +6,7 @@ title: Horizontal BoxPlot / Violin Plot
 
 <script setup>
 import {config} from './horizontalBoxPlot';
+import {config as raincloud} from './horizontalRaincloud';
 import {config as violin} from './horizontalViolin';
 </script>
 
@@ -40,5 +41,22 @@ import {config as violin} from './horizontalViolin';
 <<< ./horizontalViolin.ts#config [config]
 
 <<< ./violin.ts#data [data]
+
+:::
+
+## Raincloud Plot
+
+<RaincloudChart
+  :options="raincloud.options"
+  :data="raincloud.data"
+/>
+
+### Code
+
+:::code-group
+
+<<< ./horizontalRaincloud.ts#config [config]
+
+<<< ./raincloud.ts#data [data]
 
 :::

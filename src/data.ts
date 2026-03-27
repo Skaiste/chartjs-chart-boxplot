@@ -47,6 +47,8 @@ export interface IViolin extends IBaseStats {
   coords: IKDEPoint[];
 }
 
+export interface IRaincloud extends IBoxPlot, IViolin {}
+
 /**
  * compute the whiskers
  * @param boxplot
@@ -156,6 +158,20 @@ export interface IViolinOptions extends IBaseOptions {
   points: number;
 }
 
+export interface IRaincloudOptions extends IBoxplotOptions {
+  /**
+   * number of points that should be samples of the KDE
+   * @default 100
+   */
+  points: number;
+
+  /**
+   * side of the category slot where the cloud should be rendered
+   * @default 'before'
+   */
+  side?: 'before' | 'after';
+}
+
 /**
  * @hidden
  */
@@ -163,6 +179,15 @@ export const defaultStatsOptions: Required<Omit<IBaseOptions, 'minStats' | 'maxS
   coef: 1.5,
   quantiles: 7,
   whiskersMode: 'nearest',
+};
+
+export const defaultViolinOptions: Required<Pick<IViolinOptions, 'points'>> = {
+  points: 100,
+};
+
+export const defaultRaincloudOptions: Required<Pick<IRaincloudOptions, 'points' | 'side'>> = {
+  points: defaultViolinOptions.points,
+  side: 'before',
 };
 
 function determineQuantiles(q: QuantileMethod) {
@@ -271,6 +296,39 @@ export function violinStats(arr: readonly number[], options: IViolinOptions): IV
 /**
  * @hidden
  */
+export function raincloudStats(arr: readonly number[], options: IRaincloudOptions): IRaincloud | undefined {
+  if (arr.length === 0) {
+    return undefined;
+  }
+  const vs =
+    typeof Float64Array !== 'undefined' && !(arr instanceof Float32Array || arr instanceof Float64Array)
+      ? Float64Array.from(arr)
+      : arr;
+  const stats = boxplots(vs, determineStatsOptions(options));
+
+  const samples = computeSamples(stats.min, stats.max, options.points);
+  const coords = samples.map((v) => ({ v, estimate: stats.kde(v) }));
+  const maxEstimate = coords.reduce((a, d) => Math.max(a, d.estimate), Number.NEGATIVE_INFINITY);
+
+  return {
+    items: Array.from(stats.items),
+    outliers: stats.outlier,
+    whiskerMax: stats.whiskerHigh,
+    whiskerMin: stats.whiskerLow,
+    max: stats.max,
+    median: stats.median,
+    mean: stats.mean,
+    min: stats.min,
+    q1: stats.q1,
+    q3: stats.q3,
+    coords,
+    maxEstimate,
+  };
+}
+
+/**
+ * @hidden
+ */
 export function asBoxPlotStats(value: any, options: IBoxplotOptions): IBoxPlot | undefined {
   if (!value) {
     return undefined;
@@ -310,6 +368,40 @@ export function asViolinStats(value: any, options: IViolinOptions): IViolin | un
     return undefined;
   }
   return violinStats(value, options);
+}
+
+/**
+ * @hidden
+ */
+export function asRaincloudStats(value: any, options: IRaincloudOptions): IRaincloud | undefined {
+  if (!value) {
+    return undefined;
+  }
+  if (
+    typeof value.median === 'number' &&
+    typeof value.q1 === 'number' &&
+    typeof value.q3 === 'number' &&
+    Array.isArray(value.coords)
+  ) {
+    if (typeof value.whiskerMin === 'undefined') {
+      const { coef } = determineStatsOptions(options);
+      const { whiskerMin, whiskerMax } = whiskers(
+        value,
+        Array.isArray(value.items) ? (value.items as number[]).slice().sort((a, b) => a - b) : null,
+        coef
+      );
+      value.whiskerMin = whiskerMin;
+      value.whiskerMax = whiskerMax;
+    }
+    return value;
+  }
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+  return raincloudStats(value, {
+    ...defaultRaincloudOptions,
+    ...options,
+  });
 }
 
 /**
